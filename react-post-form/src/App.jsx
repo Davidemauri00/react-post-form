@@ -7,10 +7,15 @@ function App() {
     author: "Marco",
     title: "Boolean",
     body: "Questo è il mio post",
-    public: false
+    pubblico: false
 
   }]);
-  const [listPost, setListPost] = useState([]);
+  const [newPost, setNewPost] = useState({
+    author: "",
+    title: "",
+    body: "",
+    pubblico: false
+  });
   function handleBlog(blog) {
     setPosts({
       ...posts,
@@ -23,13 +28,12 @@ function App() {
       <div>
         {posts.map((post, index) => (
           <div key={index}>
-            <h3>{post.title}</h3>
-            <p>{post.author}</p>
-            <p>{post.body}</p>
+            <h3>{post["title"]}</h3>
+            <p>{post["author"]}</p>
+            <p>{post["body"]}</p>
             <input
               name="public"
-              checked={posts.public}
-              onChange={handleBlog}
+              checked={post["pubblico"]}
               id="available"
               type="checkbox"
             />
@@ -40,21 +44,21 @@ function App() {
         <input
           type="text"
           name="author"
-          value={posts.author}
+          value={newPost.author}
           onChange={handleBlog}
           placeholder="Inserisci nome autore"
         />
         <input
           type="text"
           name="title"
-          value={posts.title}
+          value={newPost.title}
           onChange={handleBlog}
           placeholder="Inserisci titolo del post"
         />
         <input
           type="text"
           name="body"
-          value={posts.body}
+          value={newPost.body}
           onChange={handleBlog}
           placeholder="Inserisci contenuto del post"
         />
