@@ -7,40 +7,48 @@ function App() {
     author: "Marco",
     title: "Boolean",
     body: "Questo è il mio post",
-    pubblico: false
+    visibile: true
 
   }]);
   const [newPost, setNewPost] = useState({
     author: "",
     title: "",
     body: "",
-    pubblico: false
+    visibile: true
   });
+  function submitBlog(event){
+    event.preventDefault();
+    const aggiornatoBlog = [...posts, newPost];
+    setPosts(aggiornatoBlog);
+    setNewPost({
+    author: "",
+    title: "",
+    body: "",
+    visibile: true});
+  }
   function handleBlog(blog) {
-    setPosts({
-      ...posts,
-      [blog.target.name]: blog.target.value
+    const valore =
+      blog.target.type === "checkbox" ?
+        blog.target.checked : blog.target.value;
+    setNewPost({
+      ...newPost,
+      [blog.target.name]: valore,
     });
   }
 
   return (
     <>
       <div>
-        {posts.map((post, index) => (
+        {posts.map((post, index) => 
           <div key={index}>
             <h3>{post["title"]}</h3>
             <p>{post["author"]}</p>
             <p>{post["body"]}</p>
-            <input
-              name="public"
-              checked={post["pubblico"]}
-              id="available"
-              type="checkbox"
-            />
+            <p>{post["visibile"] === true ? "pubblico" : "privato"}</p>
           </div>
-        ))}
+        )}
       </div>
-      <form>
+      <form onSubmit={submitBlog}>
         <input
           type="text"
           name="author"
@@ -62,6 +70,16 @@ function App() {
           onChange={handleBlog}
           placeholder="Inserisci contenuto del post"
         />
+        <input
+              name="visibile"
+              checked={newPost.visibile}
+              id="available"
+              onChange={handleBlog}
+              type="checkbox"
+            />
+        <button type="submit">
+          Pubblica
+        </button>
       </form>
 
     </>
